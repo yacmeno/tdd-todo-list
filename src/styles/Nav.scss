@@ -1,0 +1,14 @@
+.navbar {
+	display: flex;
+	flex-direction: row;
+
+	li {
+		list-style-type: none;
+		margin-right: 40px;
+		cursor: pointer;
+
+		&.active {
+			text-decoration: underline;
+		}
+	}
+}
