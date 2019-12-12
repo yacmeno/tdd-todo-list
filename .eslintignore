@@ -1,3 +1,4 @@
 webpack*
 build/
 __tests__/
+jest.*
