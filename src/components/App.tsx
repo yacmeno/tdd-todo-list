@@ -1,13 +1,24 @@
 import React from "react";
-import useTodos, { Todo } from "../hooks/useTodos";
+import useTodos, { ITodo } from "../hooks/useTodos";
 
 const TodoApp: React.FC = () => {
 	const [todos, setTodos] = useTodos();
+
+	const dummyTodos = [
+		{ id: 1, text: "Cook chicken", isDone: true },
+		{ id: 2, text: "Travel to space", isDone: false },
+		{ id: 2, text: "Come back to earth", isDone: false },
+	];
+
+	function clickHandler() {
+		return;
+	}
+
 	return (
 		<div className="app__container">
 			<AddTodo />
 			<Nav />
-			<TodoList />
+			<TodoList todos={dummyTodos} clickHandler={clickHandler} />
 		</div>
 	);
 };
@@ -19,17 +30,12 @@ const Nav: React.FC = () => {
 	return <div>Nav</div>;
 };
 
-const TodoList: React.FC = () => {
-	const todos = [
-		{ id: 1, text: "Cook chicken" },
-		{ id: 2, text: "Travel to space" },
-		{ id: 2, text: "Come back to earth" },
-	];
+interface ITodoListProps {
+	todos: ITodo[];
+	clickHandler: () => void;
+}
 
-	function clickHandler() {
-		return;
-	}
-
+const TodoList: React.FC<ITodoListProps> = ({ todos, clickHandler }) => {
 	return (
 		<ul className="todo__items">
 			{todos.map(todo => (
@@ -40,13 +46,15 @@ const TodoList: React.FC = () => {
 };
 
 interface ITodoItemProps {
-	todo: Todo;
+	todo: ITodo;
 	clickHandler: () => void;
 }
 
 export const TodoItem: React.FC<ITodoItemProps> = ({ todo, clickHandler }) => {
+	const className = `todo__item${todo.isDone ? "--done" : ""}`;
+
 	return (
-		<li className="todo__item" key={todo.id} onClick={clickHandler}>
+		<li className={className} key={todo.id} onClick={clickHandler}>
 			{todo.text}
 		</li>
 	);

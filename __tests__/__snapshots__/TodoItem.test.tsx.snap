@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<TodoItem /> Should have different className if item isDone 1`] = `
+<li
+  className="todo__item--done"
+  onClick={[MockFunction]}
+>
+  Cook something good
+</li>
+`;

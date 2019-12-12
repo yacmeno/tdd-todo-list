@@ -3,24 +3,24 @@ import React from "react";
 const ADD_TODO = "ADD_TODO";
 const REMOVE_TODO = "REMOVE_TODO";
 
-export interface Todo {
+export interface ITodo {
 	id: number;
 	text: string;
+	isDone: boolean;
 }
 interface AddTodo {
 	type: typeof ADD_TODO;
-	payload: Todo;
+	payload: ITodo;
 }
 interface RemoveTodo {
 	type: typeof REMOVE_TODO;
-	payload: Todo["id"];
+	payload: ITodo["id"];
 }
 
 type TodoActionTypes = AddTodo | RemoveTodo;
 
 interface TodosState {
-	todos: Todo[];
-	completed: Todo[];
+	items: ITodo[];
 }
 
 function reducer(state: TodosState, action: TodoActionTypes) {
@@ -37,8 +37,7 @@ function reducer(state: TodosState, action: TodoActionTypes) {
 }
 
 const initialState: TodosState = {
-	todos: [],
-	completed: [],
+	items: [],
 };
 
 const useTodos = () => {
