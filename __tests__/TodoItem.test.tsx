@@ -1,8 +1,7 @@
 import React from "react";
 import { shallow } from "enzyme";
 import renderer from "react-test-renderer";
-
-import { TodoItem } from "../src/components/App";
+import { TodoItem } from "../src/components/TodoItem";
 
 describe("<TodoItem />", () => {
 	test("Should display a todo item", () => {

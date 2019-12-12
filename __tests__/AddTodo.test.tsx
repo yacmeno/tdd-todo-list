@@ -1,7 +1,6 @@
 import React from "react";
-import { shallow, mount } from "enzyme";
-
-import { AddTodo } from "../src/components/App";
+import { shallow } from "enzyme";
+import { AddTodo } from "../src/components/AddTodo";
 
 describe("<AddTodo />", () => {
 	test("Should have invalid state on empty input", () => {

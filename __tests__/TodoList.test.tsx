@@ -1,7 +1,6 @@
 import React from "react";
 import { shallow } from "enzyme";
-
-import { TodoList, ITodoListProps } from "../src/components/App";
+import { ITodoListProps, TodoList } from "../src/components/TodoList";
 
 describe("<TodoList />", () => {
 	test("Should handle displaying 0 items", () => {

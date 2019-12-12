@@ -1,25 +1,5 @@
 import React from "react";
-import useTodos, { ITodo, ADD_TODO, TOGGLE_TODO } from "../hooks/useTodos";
-
-const TodoApp: React.FC = () => {
-	const [todos, setTodos] = useTodos();
-
-	function toggleTodo(todo: ITodo) {
-		setTodos({ type: TOGGLE_TODO, payload: todo });
-	}
-
-	function onAdd(todo: ITodo) {
-		setTodos({ type: ADD_TODO, payload: todo });
-	}
-
-	return (
-		<div className="app__container">
-			<AddTodo onAdd={onAdd} />
-			<Nav />
-			<TodoList todos={todos} clickHandler={toggleTodo} />
-		</div>
-	);
-};
+import { ITodo } from "../hooks/useTodos";
 
 interface IAddTodoProps {
 	onAdd: (todo: ITodo) => void;
@@ -92,43 +72,3 @@ export class AddTodo extends React.Component<IAddTodoProps, IAddTodoState> {
 		);
 	}
 }
-
-const Nav: React.FC = () => {
-	return <div>Nav</div>;
-};
-
-export interface ITodoListProps {
-	todos: ITodo[];
-	clickHandler: (todo: ITodo) => void;
-}
-
-export const TodoList: React.FC<ITodoListProps> = ({ todos, clickHandler }) => {
-	if (todos.length === 0) {
-		return <p data-test-no-items="true">No items here!</p>;
-	}
-
-	return (
-		<ul className="todo__items">
-			{todos.map(todo => (
-				<TodoItem key={todo.id} todo={todo} clickHandler={clickHandler} />
-			))}
-		</ul>
-	);
-};
-
-interface ITodoItemProps {
-	todo: ITodo;
-	clickHandler: (todo: ITodo) => void;
-}
-
-export const TodoItem: React.FC<ITodoItemProps> = ({ todo, clickHandler }) => {
-	const className = `todo__item ${todo.isDone ? "todo__item--done" : ""}`;
-
-	return (
-		<li className={className} onClick={() => clickHandler(todo)}>
-			{todo.text}
-		</li>
-	);
-};
-
-export default TodoApp;
