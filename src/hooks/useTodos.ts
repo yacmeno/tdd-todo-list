@@ -1,7 +1,7 @@
 import React from "react";
 
-const ADD_TODO = "ADD_TODO";
-const REMOVE_TODO = "REMOVE_TODO";
+export const ADD_TODO = "ADD_TODO";
+export const TOGGLE_TODO = "TOGGLE_TODO";
 
 export interface ITodo {
 	id: number;
@@ -12,36 +12,41 @@ interface AddTodo {
 	type: typeof ADD_TODO;
 	payload: ITodo;
 }
-interface RemoveTodo {
-	type: typeof REMOVE_TODO;
-	payload: ITodo["id"];
+interface ToggleTodo {
+	type: typeof TOGGLE_TODO;
+	payload: ITodo;
 }
 
-type TodoActionTypes = AddTodo | RemoveTodo;
+export type TodoActionTypes = AddTodo | ToggleTodo;
 
-interface TodosState {
-	items: ITodo[];
-}
-
-function reducer(state: TodosState, action: TodoActionTypes) {
+function reducer(state: ITodo[], action: TodoActionTypes) {
 	switch (action.type) {
 		case ADD_TODO:
-			return { ...state };
+			return [...state, action.payload];
 
-		case REMOVE_TODO:
-			return { ...state };
+		case TOGGLE_TODO: {
+			const toggledTodoIndex = state.findIndex(
+				todo => todo.id === action.payload.id
+			);
+
+			let nextItems = [...state];
+			nextItems[toggledTodoIndex] = {
+				...state[toggledTodoIndex],
+				isDone: !state[toggledTodoIndex].isDone,
+			};
+
+			return nextItems;
+		}
 
 		default:
 			throw new Error("Invalid todo action");
 	}
 }
 
-const initialState: TodosState = {
-	items: [],
-};
+type UseTodosReturnType = [ITodo[], React.Dispatch<TodoActionTypes>];
 
-const useTodos = () => {
-	const [todos, dispatch] = React.useReducer(reducer, initialState);
+const useTodos = (): UseTodosReturnType => {
+	const [todos, dispatch] = React.useReducer(reducer, []);
 
 	return [todos, dispatch];
 };

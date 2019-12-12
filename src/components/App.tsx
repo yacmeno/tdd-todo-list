@@ -1,34 +1,28 @@
 import React from "react";
-import useTodos, { ITodo } from "../hooks/useTodos";
+import useTodos, { ITodo, ADD_TODO, TOGGLE_TODO } from "../hooks/useTodos";
 
 const TodoApp: React.FC = () => {
 	const [todos, setTodos] = useTodos();
 
-	const dummyTodos = [
-		{ id: 1, text: "Cook chicken", isDone: true },
-		{ id: 2, text: "Travel to space", isDone: false },
-		{ id: 3, text: "Come back to earth", isDone: false },
-	];
-
-	function clickHandler() {
-		return;
+	function toggleTodo(todo: ITodo) {
+		setTodos({ type: TOGGLE_TODO, payload: todo });
 	}
 
-	function onAdd() {
-		return;
+	function onAdd(todo: ITodo) {
+		setTodos({ type: ADD_TODO, payload: todo });
 	}
 
 	return (
 		<div className="app__container">
 			<AddTodo onAdd={onAdd} />
 			<Nav />
-			<TodoList todos={dummyTodos} clickHandler={clickHandler} />
+			<TodoList todos={todos} clickHandler={toggleTodo} />
 		</div>
 	);
 };
 
 interface IAddTodoProps {
-	onAdd: () => void;
+	onAdd: (todo: ITodo) => void;
 }
 interface IAddTodoState {
 	currentId: number;
@@ -62,7 +56,11 @@ export class AddTodo extends React.Component<IAddTodoProps, IAddTodoState> {
 	}
 
 	private handleSubmit() {
-		this.props.onAdd();
+		this.props.onAdd({
+			id: this.state.currentId,
+			text: this.state.currentTodo,
+			isDone: false,
+		});
 		this.setState(prevState => {
 			return {
 				currentId: prevState.currentId + 1,
@@ -101,7 +99,7 @@ const Nav: React.FC = () => {
 
 export interface ITodoListProps {
 	todos: ITodo[];
-	clickHandler: () => void;
+	clickHandler: (todo: ITodo) => void;
 }
 
 export const TodoList: React.FC<ITodoListProps> = ({ todos, clickHandler }) => {
@@ -120,14 +118,14 @@ export const TodoList: React.FC<ITodoListProps> = ({ todos, clickHandler }) => {
 
 interface ITodoItemProps {
 	todo: ITodo;
-	clickHandler: () => void;
+	clickHandler: (todo: ITodo) => void;
 }
 
 export const TodoItem: React.FC<ITodoItemProps> = ({ todo, clickHandler }) => {
-	const className = `todo__item todo__item${todo.isDone ? "--done" : ""}`;
+	const className = `todo__item ${todo.isDone ? "todo__item--done" : ""}`;
 
 	return (
-		<li className={className} onClick={clickHandler}>
+		<li className={className} onClick={() => clickHandler(todo)}>
 			{todo.text}
 		</li>
 	);
