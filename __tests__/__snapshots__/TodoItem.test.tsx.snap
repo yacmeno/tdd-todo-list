@@ -2,7 +2,7 @@
 
 exports[`<TodoItem /> Should have different className if item isDone 1`] = `
 <li
-  className="todo__item--done"
+  className="todo__item todo__item--done"
   onClick={[MockFunction]}
 >
   Cook something good

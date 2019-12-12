@@ -7,7 +7,7 @@ const TodoApp: React.FC = () => {
 	const dummyTodos = [
 		{ id: 1, text: "Cook chicken", isDone: true },
 		{ id: 2, text: "Travel to space", isDone: false },
-		{ id: 2, text: "Come back to earth", isDone: false },
+		{ id: 3, text: "Come back to earth", isDone: false },
 	];
 
 	function clickHandler() {
@@ -30,16 +30,20 @@ const Nav: React.FC = () => {
 	return <div>Nav</div>;
 };
 
-interface ITodoListProps {
+export interface ITodoListProps {
 	todos: ITodo[];
 	clickHandler: () => void;
 }
 
-const TodoList: React.FC<ITodoListProps> = ({ todos, clickHandler }) => {
+export const TodoList: React.FC<ITodoListProps> = ({ todos, clickHandler }) => {
+	if (todos.length === 0) {
+		return <p data-test-no-items="true">No items here!</p>;
+	}
+
 	return (
 		<ul className="todo__items">
 			{todos.map(todo => (
-				<TodoItem todo={todo} clickHandler={clickHandler} />
+				<TodoItem key={todo.id} todo={todo} clickHandler={clickHandler} />
 			))}
 		</ul>
 	);
@@ -51,10 +55,10 @@ interface ITodoItemProps {
 }
 
 export const TodoItem: React.FC<ITodoItemProps> = ({ todo, clickHandler }) => {
-	const className = `todo__item${todo.isDone ? "--done" : ""}`;
+	const className = `todo__item todo__item${todo.isDone ? "--done" : ""}`;
 
 	return (
-		<li className={className} key={todo.id} onClick={clickHandler}>
+		<li className={className} onClick={clickHandler}>
 			{todo.text}
 		</li>
 	);
