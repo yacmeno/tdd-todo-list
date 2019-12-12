@@ -1,7 +1,7 @@
 import React from "react";
 import { shallow } from "enzyme";
 import { Nav } from "../src/components/Nav";
-import { Filters } from "../src/components/TodoApp";
+import { Filters } from "../src/hooks/useTodos";
 
 describe("<Nav />", () => {
 	test("Should simulate click event to set filter", () => {

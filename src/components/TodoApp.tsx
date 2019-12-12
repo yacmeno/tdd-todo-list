@@ -4,18 +4,8 @@ import { AddTodo } from "./AddTodo";
 import { TodoList } from "./TodoList";
 import { Nav } from "./Nav";
 
-export const Filters = {
-	SHOW_ALL: "SHOW_ALL",
-	SHOW_TODO: "SHOW_TODO",
-	SHOW_DONE: "SHOW_DONE",
-};
-
 const TodoApp: React.FC = () => {
-	const [todos, setTodos] = useTodos();
-	const [visibleTodos, setVisibleTodos] = React.useState<ITodo[]>(todos);
-	const [visibilityFilter, setVisibilityFilter] = React.useState<string>(
-		Filters.SHOW_ALL
-	);
+	const [visibilityFilter, setFilter, visibleTodos, setTodos] = useTodos();
 
 	function toggleTodo(todo: ITodo) {
 		setTodos({ type: TOGGLE_TODO, payload: todo });
@@ -25,26 +15,8 @@ const TodoApp: React.FC = () => {
 		setTodos({ type: ADD_TODO, payload: todo });
 	}
 
-	React.useEffect(() => {
-		switch (visibilityFilter) {
-			case Filters.SHOW_ALL:
-				setVisibleTodos(todos);
-				return;
-			case Filters.SHOW_TODO: {
-				const items = todos.filter(todo => todo.isDone !== true);
-				setVisibleTodos(items);
-				return;
-			}
-			case Filters.SHOW_DONE: {
-				const items = todos.filter(todo => todo.isDone === true);
-				setVisibleTodos(items);
-				return;
-			}
-		}
-	}, [visibilityFilter, todos]);
-
 	function onFilterChange(filter: string) {
-		setVisibilityFilter(filter);
+		setFilter(filter);
 	}
 
 	return (

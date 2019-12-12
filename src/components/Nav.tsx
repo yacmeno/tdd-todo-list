@@ -1,5 +1,5 @@
 import React from "react";
-import { Filters } from "./TodoApp";
+import { Filters } from "../hooks/useTodos";
 
 interface INavProps {
 	activeFilter: string;
