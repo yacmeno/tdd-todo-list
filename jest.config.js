@@ -1,6 +1,6 @@
-// eslint-disable-next-line no-undef
 module.exports = {
 	roots: ["<rootDir>/__tests__"],
+	setupFilesAfterEnv: ["./jest.setup.js"],
 	testMatch: [
 		"**/__tests__/**/*.+(ts|tsx|js)",
 		"**/?(*.)+(spec|test).+(ts|tsx|js)",
